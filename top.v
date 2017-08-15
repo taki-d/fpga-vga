@@ -12,15 +12,13 @@ module top(
 reg [9:0] CounterX;
 reg [8:0] CounterY;
 
-wire CounterXmaxed = (CounterX == 767);
+reg CounterXmaxed = (CounterX == 767);
 
 always @(posedge clk) begin
-	if(CounterXmaxed) begin
+	if(CounterXmaxed)
 		CounterX <= 0;
-	end
-	else begin
+	else
 		CounterX <= CounterX + 1;
-	end
 end
 	
 always @(posedge clk) begin
@@ -40,20 +38,25 @@ assign vga_v_sync = ~vga_VS;
 
 assign R = CounterY[3] | (CounterX==256);
 assign G = (CounterX[5] ^ CounterX[6]) | (CounterX==256);
-assign B = CounterX[4] | (CounterX==256); 
+assign B = CounterX[4] | (CounterX==256);
 
 endmodule
 
 
 module testbench();
 	initial begin
-		
+		$dumpfile("testbench.vcd");
+		$dumpvars(0,testbench);
 	end
-	wire[4:0] hoge;
-	top test(clock,hoge[0],hoge[1],hoge[2],hoge[3]);
+	wire a,b,c,d,e;
+
+	reg clk;
+	top test(clk,a,b,c,d,e);
 	
-	reg clock;
 	always begin
-		#50; clock <=  ~clock;
+		#1; 
+		clk = 0;
+		#1;
+		clk = 1;
 	end
 endmodule
