@@ -43,3 +43,17 @@ assign G = (CounterX[5] ^ CounterX[6]) | (CounterX==256);
 assign B = CounterX[4] | (CounterX==256); 
 
 endmodule
+
+
+module testbench();
+	initial begin
+		
+	end
+	wire[4:0] hoge;
+	top test(clock,hoge[0],hoge[1],hoge[2],hoge[3]);
+	
+	reg clock;
+	always begin
+		#50; clock <=  ~clock;
+	end
+endmodule
